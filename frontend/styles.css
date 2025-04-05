@@ -1,0 +1,82 @@
+/* Custom styles for the IELTS Speaking Practice app */
+
+/* Recording button animation */
+@keyframes pulse {
+  0% {
+      transform: scale(1);
+  }
+  50% {
+      transform: scale(1.05);
+  }
+  100% {
+      transform: scale(1);
+  }
+}
+
+.recording {
+  animation: pulse 1.5s infinite;
+}
+
+/* Score indicators */
+.score-indicator {
+  position: relative;
+  display: inline-block;
+}
+
+.score-indicator::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #e5e7eb;
+}
+
+.score-indicator.active::after {
+  background-color: #3b82f6;
+}
+
+/* Loading spinner */
+.loading {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #3b82f6;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Feedback section */
+#feedback {
+  max-height: 300px;
+  overflow-y: auto;
+  padding-right: 1rem;
+}
+
+/* Transcript section */
+#transcript {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .container {
+      padding: 1rem;
+  }
+  
+  #recording-section {
+      margin-bottom: 1rem;
+  }
+  
+  .grid {
+      grid-template-columns: 1fr;
+  }
+}
