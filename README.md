@@ -6,7 +6,7 @@
 [![spaCy](https://img.shields.io/badge/spaCy-NLP-blue.svg)](https://spacy.io/)
 [![Whisper](https://img.shields.io/badge/Whisper-Speech-blue.svg)](https://github.com/openai/whisper)
 
-IELTS AI is an intelligent, AI-driven web platform created to assist users in preparing for the IELTS exam. This system offers a personalized and adaptive learning environment that mimics real-world testing scenarios, helping learners improve across all four IELTS components — Speaking, Writing, Reading, and Listening.
+IELTS AI is an intelligent, AI-driven web platform created to assist users in preparing for the IELTS exam. This system offers a personalized and adaptive learning environment that mimics real-world testing scenarios, helping learners improve a crucial IELTS component — Speaking.
 
 Designed with both learners and educators in mind, the platform leverages advanced NLP models like OpenAI Whisper, spaCy, and Google Gemini to evaluate language proficiency, provide detailed feedback, and simulate actual test conditions. Whether you're targeting a higher band score or just getting started, IELTS AI supports your journey with real-time analysis and progress tracking.
 
@@ -14,8 +14,6 @@ Designed with both learners and educators in mind, the platform leverages advanc
 
 - 🎯 AI-powered writing assessment with detailed feedback
 - 🗣️ Speaking practice with real-time pronunciation analysis
-- 📖 Reading comprehension exercises with difficulty levels
-- 🎧 Listening practice modules with transcription
 - 📊 Progress tracking and analytics dashboard
 - 🤖 Multiple AI models for comprehensive evaluation
 
