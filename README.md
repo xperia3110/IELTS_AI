@@ -12,7 +12,6 @@ Designed with both learners and educators in mind, the platform leverages advanc
 
 ## 🚀 Features
 
-- 🎯 AI-powered writing assessment with detailed feedback
 - 🗣️ Speaking practice with real-time pronunciation analysis
 - 📊 Progress tracking and analytics dashboard
 - 🤖 Multiple AI models for comprehensive evaluation
