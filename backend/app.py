@@ -248,33 +248,31 @@ def combine_analyses(nlp_analysis, gemini_analysis):
     coherence_gemini = gemini_analysis['coherence_score']
     
     # Weighted combination (giving more weight to Gemini for deeper analysis)
-    # Increased weights for vocabulary and grammar, reduced for fluency
     fluency_combined = (fluency_nlp * 0.3) + (fluency_gemini * 0.7)
-    vocabulary_combined = (vocabulary_nlp * 0.2) + (vocabulary_gemini * 0.8)  # Increased weight for vocabulary
-    grammar_combined = (grammar_nlp * 0.2) + (grammar_gemini * 0.8)  # Increased weight for grammar
+    vocabulary_combined = (vocabulary_nlp * 0.2) + (vocabulary_gemini * 0.8)  
+    grammar_combined = (grammar_nlp * 0.2) + (grammar_gemini * 0.8)  
     
     # Calculate overall score with adjusted weights
-    # Increased weights for vocabulary and grammar
     overall_score = (
-        fluency_combined * 0.15 +      # Reduced from 0.2
-        vocabulary_combined * 0.4 +     # Increased from 0.35
-        grammar_combined * 0.4 +        # Increased from 0.35
-        coherence_gemini * 0.05         # Reduced from 0.1
+        fluency_combined * 0.15 +      
+        vocabulary_combined * 0.4 +     
+        grammar_combined * 0.4 +        
+        coherence_gemini * 0.05        
     )
     
     # Apply stricter minimum thresholds for higher scores
     if overall_score > 7.0:
-        # For band 7+, require exceptional scores in all areas
+       
         if (vocabulary_combined < 7.5 or grammar_combined < 7.5 or 
             fluency_combined < 7.0 or coherence_gemini < 7.0):
             overall_score = 6.5
     elif overall_score > 6.0:
-        # For band 6+, require high scores in all areas
+       
         if (vocabulary_combined < 6.5 or grammar_combined < 6.5 or 
             fluency_combined < 6.0 or coherence_gemini < 6.0):
             overall_score = 5.5
     elif overall_score > 5.0:
-        # For band 5+, require decent scores in all areas
+       
         if (vocabulary_combined < 5.5 or grammar_combined < 5.5 or 
             fluency_combined < 5.0 or coherence_gemini < 5.0):
             overall_score = 4.5
@@ -285,7 +283,7 @@ def combine_analyses(nlp_analysis, gemini_analysis):
     elif any(score < 4.0 for score in [vocabulary_combined, grammar_combined, fluency_combined, coherence_gemini]):
         overall_score *= 0.7  # 30% penalty if any score is below 4.0
     
-    # Round scores to nearest 0.5
+   
     fluency_combined = round(fluency_combined * 2) / 2
     vocabulary_combined = round(vocabulary_combined * 2) / 2
     grammar_combined = round(grammar_combined * 2) / 2
@@ -295,9 +293,6 @@ def combine_analyses(nlp_analysis, gemini_analysis):
     # Combine feedback
     nlp_feedback = nlp_analysis.get('feedback', '{}')
     gemini_feedback = gemini_analysis.get('feedback', '{}')
-    
-    # For simplicity, we'll use Gemini's feedback as it's more comprehensive
-    # In a production system, you might want to merge the feedback more intelligently
     
     return {
         'fluency_score': fluency_combined,
