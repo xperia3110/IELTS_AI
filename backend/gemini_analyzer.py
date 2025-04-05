@@ -112,7 +112,6 @@ def analyze_with_gemini(transcript, question):
             # Extract JSON from the response
             response_text = response.text
             
-            # Sometimes Gemini might include markdown code blocks, so we need to extract just the JSON
             if "```json" in response_text:
                 json_start = response_text.find("```json") + 7
                 json_end = response_text.find("```", json_start)
@@ -130,7 +129,6 @@ def analyze_with_gemini(transcript, question):
             for field in required_fields:
                 if field not in analysis:
                     if field == 'coherence_score':
-                        # If coherence is missing, estimate it from fluency
                         analysis['coherence_score'] = analysis.get('fluency_score', 0.0)
                     else:
                         # Default values for missing fields
@@ -143,7 +141,6 @@ def analyze_with_gemini(transcript, question):
                     'suggestions': ['Please provide a more detailed response']
                 }
             
-            # Convert feedback to JSON string for database storage
             analysis['feedback'] = json.dumps(analysis['feedback'])
             
             return analysis
