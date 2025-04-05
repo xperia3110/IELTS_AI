@@ -145,21 +145,21 @@ def analyze_fluency(transcript, doc):
         sentence_length_variation = 0
     
     # Extremely strict scoring components (each from 0-9)
-    speech_rate_score = min(9, max(0, 2.0 + (estimated_speech_rate - 120) / 40))  # Further reduced base score
+    speech_rate_score = min(9, max(0, 2.0 + (estimated_speech_rate - 120) / 40))  
     
     filler_ratio = filler_count / max(1, word_count)
-    filler_score = min(9, max(0, 9 - filler_ratio * 250))  # Further increased penalty for filler words
+    filler_score = min(9, max(0, 9 - filler_ratio * 250))  
     
-    complexity_score = min(9, max(0, 2.0 + (fk_grade - 10) * 0.2))  # Further reduced base score
+    complexity_score = min(9, max(0, 2.0 + (fk_grade - 10) * 0.2))  
     
-    sentence_variation_score = min(9, max(0, 2.0 + sentence_length_variation * 0.2))  # Further reduced base score
+    sentence_variation_score = min(9, max(0, 2.0 + sentence_length_variation * 0.2))  
     
     # Additional penalties
-    if word_count < 150:  # Further increased minimum word count
+    if word_count < 150:  
         speech_rate_score *= 0.5
         complexity_score *= 0.5
     
-    if avg_sentence_length < 12:  # Further increased minimum sentence length
+    if avg_sentence_length < 12:  
         sentence_variation_score *= 0.5
     
     # Weighted average for final fluency score with stricter weights
@@ -171,12 +171,12 @@ def analyze_fluency(transcript, doc):
     )
     
     # Additional overall penalty for poor performance
-    if fluency_score > 3.0:  # Further reduced threshold
-        if filler_ratio > 0.03:  # Further reduced threshold for filler words
+    if fluency_score > 3.0: 
+        if filler_ratio > 0.03: 
             fluency_score *= 0.6
-        if avg_sentence_length < 15:  # Further increased minimum sentence length
+        if avg_sentence_length < 15:  
             fluency_score *= 0.7
-        if word_count < 150:  # Further increased minimum word count
+        if word_count < 150:  
             fluency_score *= 0.7
     
     return fluency_score
@@ -216,16 +216,16 @@ def analyze_vocabulary(doc):
     avg_word_rank = np.mean(word_ranks) if word_ranks else 0
     
     # Extremely strict scoring components (each from 0-9)
-    diversity_score = min(9, max(0, lexical_diversity * 6))  # Further reduced multiplier
+    diversity_score = min(9, max(0, lexical_diversity * 6))  
     
-    length_score = min(9, max(0, 2.0 + (avg_word_length - 7.0) * 0.8))  # Further reduced base score
+    length_score = min(9, max(0, 2.0 + (avg_word_length - 7.0) * 0.8))  
     
-    syllable_score = min(9, max(0, 2.0 + (avg_syllables - 2.5) * 1.5))  # Further reduced base score
+    syllable_score = min(9, max(0, 2.0 + (avg_syllables - 2.5) * 1.5)) 
     
-    rarity_score = min(9, max(0, 2.0 - avg_word_rank / 20000))  # Further reduced base score
+    rarity_score = min(9, max(0, 2.0 - avg_word_rank / 20000))  
     
     # Additional penalties
-    if len(all_words) < 75:  # Further increased minimum word count
+    if len(all_words) < 75:  
         diversity_score *= 0.5
         length_score *= 0.5
     
@@ -244,7 +244,7 @@ def analyze_vocabulary(doc):
     common_word_count = sum(1 for word in all_words if word in common_words)
     common_word_ratio = common_word_count / len(all_words) if all_words else 0
     
-    if common_word_ratio > 0.25:  # Further reduced threshold for common words
+    if common_word_ratio > 0.25:  
         rarity_score *= 0.5
     
     # Weighted average for final vocabulary score with stricter weights
@@ -256,12 +256,12 @@ def analyze_vocabulary(doc):
     )
     
     # Additional overall penalty for poor performance
-    if vocabulary_score > 3.0:  # Further reduced threshold
-        if common_word_ratio > 0.2:  # Further reduced threshold for common words
+    if vocabulary_score > 3.0: 
+        if common_word_ratio > 0.2:  
             vocabulary_score *= 0.6
-        if lexical_diversity < 0.6:  # Further increased threshold for lexical diversity
+        if lexical_diversity < 0.6:  
             vocabulary_score *= 0.6
-        if len(all_words) < 150:  # Further increased minimum word count
+        if len(all_words) < 150:  
             vocabulary_score *= 0.7
     
     return vocabulary_score
@@ -277,7 +277,7 @@ def analyze_grammar(transcript):
     Returns a score from 0-9 (IELTS scale)
     """
     # Check for empty or very short transcript
-    if not transcript or len(transcript.strip()) < 5:  # Less than 5 characters
+    if not transcript or len(transcript.strip()) < 5:  
         return 0.0
     
     # Check for grammar errors using LanguageTool
@@ -294,10 +294,10 @@ def analyze_grammar(transcript):
     error_density = (error_count / max(1, word_count)) * 100
     
     # Extremely strict scoring based on error density
-    grammar_score = min(9, max(0, 6 - error_density * 2.5))  # Further increased penalty for errors
+    grammar_score = min(9, max(0, 6 - error_density * 2.5))  
     
     # Additional penalties
-    if word_count < 75:  # Further increased minimum word count
+    if word_count < 75:  
         grammar_score *= 0.5
     
     # Check for basic grammar patterns
@@ -308,16 +308,16 @@ def analyze_grammar(transcript):
                      'i enjoy', 'i love', 'i hate', 'i like', 'i dislike', 'i want', 'i need', 'i should',
                      'i would', 'i could', 'i might', 'i may', 'i must', 'i have to', 'i got to', 'i gotta']
     basic_pattern_count = sum(1 for pattern in basic_patterns if pattern in transcript.lower())
-    if basic_pattern_count > 0:  # Further reduced threshold for basic patterns
+    if basic_pattern_count > 0:  
         grammar_score *= 0.6
     
     # Maximum score reduction for poor performance
-    if grammar_score > 3.0:  # Further reduced threshold
-        if error_density > 2:  # Further reduced threshold for error density
+    if grammar_score > 3.0: 
+        if error_density > 2: 
             grammar_score *= 0.6
-        if basic_pattern_count > 1:  # Further reduced threshold for basic patterns
+        if basic_pattern_count > 1:  
             grammar_score *= 0.6
-        if word_count < 150:  # Further increased minimum word count
+        if word_count < 150:  
             grammar_score *= 0.7
     
     return grammar_score
@@ -330,20 +330,20 @@ def calculate_overall_score(fluency_score, vocabulary_score, grammar_score):
     """
     # Extremely strict weighted average of component scores
     overall_score = (
-        fluency_score * 0.1 +       # Further reduced from 0.15
-        vocabulary_score * 0.5 +     # Further increased from 0.45
-        grammar_score * 0.4          # Maintained at 0.4
+        fluency_score * 0.1 +       
+        vocabulary_score * 0.5 +    
+        grammar_score * 0.4         
     )
     
     # Additional penalties for poor performance in any area
     if any(score < 4.0 for score in [fluency_score, vocabulary_score, grammar_score]):
-        overall_score *= 0.5  # 50% penalty if any score is below 4.0
+        overall_score *= 0.5  
     
     if any(score < 3.0 for score in [fluency_score, vocabulary_score, grammar_score]):
-        overall_score *= 0.3  # 70% penalty if any score is below 3.0
+        overall_score *= 0.3  
     
     if any(score < 2.0 for score in [fluency_score, vocabulary_score, grammar_score]):
-        overall_score *= 0.2  # 80% penalty if any score is below 2.0
+        overall_score *= 0.2  
     
     return overall_score
 
@@ -360,27 +360,27 @@ def generate_feedback(transcript, doc, fluency_score, vocabulary_score, grammar_
     }
     
     # Extremely strict feedback thresholds
-    if fluency_score >= 4.0:  # Further reduced threshold
+    if fluency_score >= 4.0: 
         feedback['strengths'].append("Adequate flow of speech with some use of connective phrases")
-    elif fluency_score >= 3.0:  # Further reduced threshold
+    elif fluency_score >= 3.0:  
         feedback['weaknesses'].append("Very frequent hesitations and significant difficulty maintaining flow")
         feedback['suggestions'].append("Practice speaking about unfamiliar topics to improve fluency")
     else:
         feedback['weaknesses'].append("Extremely frequent hesitations and severe difficulty maintaining flow")
         feedback['suggestions'].append("Record yourself speaking and identify points of hesitation")
     
-    if vocabulary_score >= 4.0:  # Further reduced threshold
+    if vocabulary_score >= 4.0: 
         feedback['strengths'].append("Basic range of vocabulary with limited use of idiomatic expressions")
-    elif vocabulary_score >= 3.0:  # Further reduced threshold
+    elif vocabulary_score >= 3.0: 
         feedback['weaknesses'].append("Very limited vocabulary range with excessive repetition")
         feedback['suggestions'].append("Learn topic-specific vocabulary for common IELTS themes")
     else:
         feedback['weaknesses'].append("Extremely basic vocabulary with severe repetition")
         feedback['suggestions'].append("Build vocabulary by reading articles on diverse topics")
     
-    if grammar_score >= 4.0:  # Further reduced threshold
+    if grammar_score >= 4.0:  
         feedback['strengths'].append("Basic control of grammatical structures")
-    elif grammar_score >= 3.0:  # Further reduced threshold
+    elif grammar_score >= 3.0:  
         feedback['weaknesses'].append("Very frequent grammatical errors in basic structures")
         feedback['suggestions'].append("Practice using a variety of tenses and complex sentences")
     else:
