@@ -43,7 +43,7 @@ Designed with both learners and educators in mind, the platform leverages advanc
 1. **Clone the repository**
 ```bash
 git clone https://github.com/xperia3110/IELTS_AI.git
-cd ielts-ai
+cd IELTS_AI
 ```
 
 2. **Set up environment**
